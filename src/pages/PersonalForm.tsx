@@ -1,8 +1,10 @@
 import { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Select from '../components/Select';
+import { setPersonalData } from '../redux/actions';
 
 const UF_LIST = [
   'Rio de Janeiro',
@@ -15,6 +17,9 @@ const UF_LIST = [
 ];
 
 function PersonalForm() {
+  const navgate = useNavigate();
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -36,7 +41,7 @@ function PersonalForm() {
     <form
       onSubmit={ (e) => {
         e.preventDefault();
-        console.log('Ao clicar, envie a informação do formulário');
+        dispatch(setPersonalData({ ...form }));
       } }
     >
       <h1 className="title">Informações Pessoais</h1>
@@ -88,6 +93,7 @@ function PersonalForm() {
         options={ UF_LIST }
       />
       <Button
+        onClick={ () => navgate('/professional-form') }
         type="submit"
         label="Próximo"
         moreClasses="is-fullwidth is-info"

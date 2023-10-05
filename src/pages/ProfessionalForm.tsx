@@ -1,10 +1,16 @@
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Input from '../components/Input';
 import TextArea from '../components/TextArea';
 import Button from '../components/Button';
+import { setProfessionalData } from '../redux/actions';
 
 function ProfessionalForm() {
+  const navgate = useNavigate();
+  const dispatch = useDispatch();
+
   const [form, setForm] = useState({
     resume: '',
     role: '',
@@ -25,7 +31,7 @@ function ProfessionalForm() {
     <form
       onSubmit={ (e) => {
         e.preventDefault();
-        console.log('Ao clicar, envie a informação do formulário');
+        dispatch(setProfessionalData({ ...form }));
       } }
     >
       <h1 className="title">Informações Profissionais</h1>
@@ -54,6 +60,7 @@ function ProfessionalForm() {
         required
       />
       <Button
+        onClick={ () => navgate('/form-display') }
         type="submit"
         label="Enviar"
         moreClasses="is-fullwidth is-info"
